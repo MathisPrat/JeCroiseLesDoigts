@@ -4,21 +4,51 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Je me suis trompé?🧐</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600;800&family=Fredoka+One&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg1:#03051a; --bg2:#07112a;
     --accent:#ff6bd6; --accent2:#6be0ff;
-    --light:#eaf2ff;
+    --light:#eaf2ff; --gold:#ffd86b;
   }
   *{box-sizing:border-box}
-  html,body{height:100%;margin:0;background:radial-gradient(1200px 600px at 10% 10%, rgba(124,58,237,0.06), transparent), linear-gradient(180deg,var(--bg1),var(--bg2));font-family:Inter,system-ui,Segoe UI,Roboto;display:grid;place-items:center;color:var(--light);overflow:hidden}
-  .card{width:94%;max-width:520px;background:linear-gradient(180deg,#071226,#0b1530);padding:30px;border-radius:18px;box-shadow:0 30px 80px rgba(3,6,23,.7);text-align:center;position:relative;overflow:hidden;z-index:1}
-  .tap-area{display:grid;place-items:center;padding:18px 22px;border-radius:14px;background:rgba(255,255,255,0.03);cursor:pointer;border:1px solid rgba(255,255,255,0.04);transition:transform .18s ease}
+  html,body{
+    height:100%;margin:0;
+    background:radial-gradient(1200px 600px at 10% 10%, rgba(124,58,237,0.06), transparent),
+               linear-gradient(180deg,var(--bg1),var(--bg2));
+    font-family:Inter,system-ui,Segoe UI,Roboto;
+    display:grid;place-items:center;
+    color:var(--light);overflow:hidden
+  }
+  .card{
+    width:94%;max-width:520px;
+    background:linear-gradient(180deg,#071226,#0b1530);
+    padding:30px;border-radius:18px;
+    box-shadow:0 30px 80px rgba(3,6,23,.7);
+    text-align:center;position:relative;
+    overflow:hidden;z-index:1
+  }
+  .tap-area{
+    display:grid;place-items:center;
+    padding:18px 22px;border-radius:14px;
+    background:rgba(255,255,255,0.03);
+    cursor:pointer;border:1px solid rgba(255,255,255,0.04);
+    transition:transform .18s ease;
+  }
   .tap-area:active{transform:scale(.995)}
-  .tap-cta{font-weight:800;letter-spacing:.6px}
-  .sub{font-size:13px;color:#b7cbe6;margin-top:8px}
-  .reveal{margin-top:22px;display:flex;flex-direction:column;align-items:center;gap:12px;min-height:140px;justify-content:center;position:relative;z-index:3}
+  .tap-cta{
+    font-weight:800;letter-spacing:.6px;color:var(--accent2);font-size:18px;text-align:center;
+  }
+  .sub{font-size:13px;color:#b7cbe6;margin-top:6px;text-align:center;}
+  .steps{margin-top:22px;min-height:100px;display:flex;align-items:center;justify-content:center}
+  .step-text{
+    font-size:20px;font-weight:700;
+    color:var(--gold);letter-spacing:.5px;
+    opacity:0;transform:translateY(8px);
+    transition:all .45s cubic-bezier(.2,.9,.25,1)
+  }
+  .step-text.visible{opacity:1;transform:none}
+  .reveal{margin-top:22px;display:flex;flex-direction:column;align-items:center;gap:12px;min-height:180px;justify-content:center;position:relative;z-index:3}
   .number{
     font-size:110px;font-weight:900;line-height:1;
     background:linear-gradient(90deg,var(--accent),var(--accent2));
@@ -35,15 +65,27 @@
     100%{ transform: scale(1) rotate(0deg); opacity:1 }
   }
   .msg{font-weight:700;color:#e7f2ff}
-  .small{font-size:12px;color:#9fb6db}
+  .final-slide{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    margin-top:20px;opacity:0;transition:opacity .6s ease;
+    position:relative; z-index:2;
+  }
+  .final-slide.visible{opacity:1;}
+  .final-slide div{
+    font-family: 'Fredoka One', cursive;
+    font-size:32px;
+    color:#ff6bd6;
+  }
+  .final-slide span{
+    font-size:80px;margin-top:10px;
+  }
   .confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:5}
-  .emoji{position:absolute;font-size:24px;pointer-events:none;z-index:4;user-select:none;will-change:transform;opacity:0.9;}
+  .emoji{position:absolute;font-size:25px;pointer-events:none;z-index:1;user-select:none;will-change:transform;opacity:0.9;}
   .shine{position:absolute;inset:-40% -20% auto -20%;height:40%;pointer-events:none;background:linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0) 60%);transform:rotate(-18deg);filter:blur(18px);mix-blend-mode:screen;opacity:0;}
   .shine.show{animation: slideShine 1s ease forwards}
-  @keyframes slideShine { from{opacity:0;transform:translateX(-80px) rotate(-18deg)} to{opacity:1;transform:translateX(120px) rotate(-18deg)} }
   .hidden{opacity:0;transform:translateY(8px) scale(.98);transition:all .45s cubic-bezier(.2,.9,.25,1)}
   .visible{opacity:1;transform:none}
-  @media (max-width:420px){ .number{font-size:64px} }
+  @media (max-width:420px){ .number{font-size:64px} .final-slide span{font-size:60px} }
 </style>
 </head>
 <body>
@@ -51,15 +93,25 @@
 
   <div class="tap-area" id="tap" role="button" aria-pressed="false">
     <div>
-      <div class="tap-cta">TAPER LA CARTE / CLIQUER ICI</div>
-      <div class="sub">(ou appuie pour la surprise)</div>
+      <div class="tap-cta">CLIQUE ICI POUR PASSER À L'ÉTAPE SUIVANTE</div>
+      <div class="sub">(Appuie à chaque fois pour continuer)</div>
     </div>
   </div>
 
+  <!-- Etapes -->
+  <div class="steps"><div class="step-text" id="stepText"></div></div>
+
+  <!-- Révélation finale originale -->
   <div class="reveal" id="reveal" aria-hidden="true">
     <div class="hidden" id="label">Ok, voyons si je me suis planté :</div>
     <div class="hidden" id="num"><span class="number" id="numberText">28</span></div>
     <div class="hidden" id="txt"><div class="msg">28 ! Coïncidence, je ne crois pas... 😎😏</div></div>
+
+    <!-- Dernière slide après la révélation -->
+    <div class="final-slide" id="finalSlide">
+      <div>Je t'ai bien eu !</div>
+      <span>😜</span>
+    </div>
   </div>
 
   <div class="shine" id="shine"></div>
@@ -68,14 +120,38 @@
 
 <script>
   const tap = document.getElementById('tap');
+  const stepText = document.getElementById('stepText');
   const label = document.getElementById('label');
   const num = document.getElementById('num');
   const txt = document.getElementById('txt');
+  const finalSlide = document.getElementById('finalSlide');
   const confettiRoot = document.getElementById('confetti');
   const shine = document.getElementById('shine');
   const numberText = document.getElementById('numberText');
   const card = document.getElementById('card');
+
   let shown = false;
+  let stepIndex = 0;
+
+  const steps = [
+    "✨ Choisis un nombre entre 1 et 20",
+    "✖️ Multiplie-le par 2",
+    "➕ Ajoute 10",
+    "➗ Divise le par 2",
+    "➖ Soustrais le à ton nombre de départ",
+    "➕ Ajoute 23"
+  ];
+
+  function showStep() {
+    if (stepIndex < steps.length) {
+      stepText.textContent = steps[stepIndex];
+      stepText.classList.remove('visible');
+      setTimeout(()=> stepText.classList.add('visible'), 30);
+      stepIndex++;
+    } else {
+      revealNow();
+    }
+  }
 
   function playConfetti() {
     const colors = ['#ff6bd6','#ffd86b','#7c3aed','#6be0ff','#ff8a6b'];
@@ -99,7 +175,8 @@
   }
 
   function playEmoji() {
-    const emojis = ['😛','😝','😜','😋','🤪'];
+    stepText.textContent = "";
+    const emojis = ['😛','😜','😋','🤪'];
     for(let i=0;i<50;i++){
       const e = document.createElement('div');
       e.className='emoji';
@@ -107,13 +184,40 @@
       e.style.left = Math.random()*100 + '%';
       e.style.top = Math.random()*100 + '%';
       card.appendChild(e);
-      const dur = (1200 + Math.random()*1000) * 2; // deux fois plus long
+      const dur = (1200 + Math.random()*1000) * 2;
       e.animate([
         { transform: `translate(0,0) rotate(0deg)`, opacity:1 },
         { transform: `translate(${Math.random()*200-100}px,${Math.random()*200-100}px) rotate(${Math.random()*720-360}deg)`, opacity:0 }
       ], {duration: dur, easing:'ease-out'});
       setTimeout(()=> e.remove(), dur);
     }
+
+    // Affiche la dernière slide après 3 secondes de délai supplémentaire
+    setTimeout(()=> {
+      finalSlide.classList.add('visible');
+      startEmojiRain();
+    }, 3000);
+  }
+
+  function startEmojiRain(){
+    const emojis = ['😛','😜','😋','🤪'];
+    setInterval(() => {
+      const e = document.createElement('div');
+      e.className='emoji';
+      e.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+      e.style.left = Math.random()*100 + '%';
+      e.style.top = '-30px';
+      e.style.fontSize = (20 + Math.random()*10) + 'px';
+      card.appendChild(e);
+
+      const fallDuration = 4000 + Math.random()*3000;
+      e.animate([
+        { transform: `translateY(0px)`, opacity:1 },
+        { transform: `translateY(${card.offsetHeight + 50}px)`, opacity:0.9 }
+      ], {duration: fallDuration, easing:'linear'});
+
+      setTimeout(()=> e.remove(), fallDuration);
+    }, 200);
   }
 
   function revealNow(){
@@ -123,16 +227,15 @@
     label.classList.remove('hidden'); label.classList.add('visible');
     setTimeout(()=> shine.classList.add('show'), 120);
 
-    setTimeout(()=>{ num.classList.remove('hidden'); num.classList.add('visible'); const n = document.getElementById('numberText'); n.classList.add('pulse'); }, 260);
+    setTimeout(()=>{ num.classList.remove('hidden'); num.classList.add('visible'); numberText.classList.add('pulse'); }, 260);
 
     setTimeout(()=>{ txt.classList.remove('hidden'); txt.classList.add('visible'); }, 620);
 
     setTimeout(playConfetti, 420);
-    setTimeout(playEmoji, 400);
+    setTimeout(playEmoji, 1000);
   }
 
-  tap.addEventListener('click', revealNow);
-  if(new URLSearchParams(location.search).get('reveal')==='1') setTimeout(revealNow, 300);
+  tap.addEventListener('click', showStep);
 </script>
 </body>
 </html>
